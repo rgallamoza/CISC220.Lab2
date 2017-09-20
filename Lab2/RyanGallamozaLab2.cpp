@@ -10,7 +10,7 @@
  * TA: Eeshita Biswas
  * 9/12/2017
  * Lab 2
- * This file contains the functions for each problem in Lab 1
+ * This file contains the functions for each problem in Lab 2
  */
 
 #include <iostream>
@@ -20,22 +20,118 @@
 using namespace std;
 
 string reverseStr(string s, int count);
+/* Returns the given string with its positions reversed
+ * Parameters: s: Any given string to be reversed
+ * 			   count: Length of the given string
+ */
+
 int sumDigits(int x, int sum);
+/* Returns the sum of each digit from a given integer
+ * Parameters: x: Any integer to be evaluated
+ *             sum: Sum of the digits. Mustust be initialized to 0
+ */
+
 int minVal(int x[], int size);
-bool isElfish(string x, int len);
+/* Returns the smallest value from a given array of integers
+ * Parameters: x[]: Any given array of integers to be evaluated
+ * 			   size: Size of the given array
+ */
+
+bool isElfish(string x, int len, bool e, bool l, bool f);
+/* Returns a boolean on whether the given string is elfish or not
+ * Parameters: x: Any string to be evaluated
+ * 			   len: Length of the given string
+ * 			   e: Whether e is in the given string or not. Must initialize to false.
+ * 			   l: Whether l is in the given string or not. Must initialize to false.
+ * 			   f: Whether f is in the given string or not. Must initialize to false.
+ */
 bool isPerfect(int x, int sum, int divisor);
+/* Returns a boolean on whether the given integer is a perfect number or not
+ * Parameters: x: Any integer to be evaluated
+ * 			   sum: Sum of the digits. Must be initialized to 0
+ * 			   divisor: Divisor to check all numbers that cleanly divide x. Must be initialized to 1
+ */
+
 void printX(int x, int row);
+/* Prints an X of asterisks, based on the integer given
+ * Parameters: x: How long each 'side' of the X will be
+ * 			   row: #row to be printed. Must be initialized to 1
+ */
+
 void printLine(int x, int row);
+/* Helper function for printX. Prints a line based on the given integer x and row number
+ */
+
 bool order1(int *x, int *y);
+/* Returns a boolean on whether the given integer x is less than or equal to y. If this is false,
+ * the values of x and y are switched.
+ * Parameters: *x: Pointer of integer x to be evaluated
+ * 			   *y: Pointer of integer y to be evaluated
+ */
+
 bool order2(int &x, int &y);
+/* Returns a boolean on whether the given integer x is less than or equal to y. If this is false,
+ * the values of x and y are switched.
+ * Parameters: &x: Reference of integer x to be evaluated
+ * 			   &y: Reference of integer y to be evaluated
+ */
+
 void printInfoPointer(int *x);
+/* Prints out the value at the address, the address in the parameter, and the address
+ * of the parameter.
+ * Parameters: *x: Pointer of integer x to be evaluated
+ */
+
 void printInfoReference(int &y);
+/* Prints out the address and the value of the parameter
+ * Parameters: &y: Reference of integer y to be evaluated
+ */
+
 void fillArray(int x[20], int size);
+/* Fills an array of 20 integers with random values between 0 and 100, excluding 100
+ * Parameters: x[20]: Array of integers with 20 spaces held in memory
+ * 			   size: Size of the given array. Should be initialized to 20
+ */
+
 void printArray(int x[], int size);
+/* Prints out each value in a given array of integers
+ * Parameters: x[]: Array of integers to be evaluated
+ * 			   size: Size of the given array
+ */
+
 void minValInfo(int x[], int size, int &val, int &index);
+/* Modifies the third parameter to the smallest value of the given array of integers, and
+ * modifies the fourth parameter to the index of that value
+ * Paramters: x[]: Array of integers to be evaluated
+ * 			  size: Size of the given array
+ * 			  &val: Reference of int to be changed to smallest value in given array
+ * 			  &index: Reference of int to be changed to index of smallest value in given array
+ */
+
 void printAddresses(int x[], int size);
+/* Prints the address of each value in a given array of integers
+ * Parameters: x[]: Any array of integers to be evaluated
+ * 			   size: Size of the given array
+ */
+
 void printAddressesDoubles(double x[], int size);
+/* Prints the address of each value in a given array of doubles
+ * Parameters: x[]: Any array of doubles to be evaluated
+ * 			   size: Size of the given array
+ */
+
 int compareArraySums(int x[], int y[], int sizex, int sizey, int &sumx, int &sumy);
+/* Returns an integer value dependent on the sums of each value in two given arrays of integers:
+ * 1 if the sum of the integers in the first array is greater than the sum of the integers in the
+ * second array, 0 if the sums are equal, and -1 if the second array’s sum is greater than the first.
+ * Modifies the fifth and sixth parameters to the sum of the first array and second array respectively.
+ * Parameters: x[]: First array of integers to be analyzed
+ * 			   y[]: Second array of integers to be analyzed
+ * 			   sizex: Size of first array of integers
+ * 			   sizey: Size of second array of integers
+ * 			   &sumx: Reference of int to be changed to the sum of integers in the first array
+ * 			   &sumy: Reference of int to be changed to the sum of integers in the second array
+ */
 
 int main(){
 	cout << "Problem 1.1" << endl;
@@ -60,9 +156,9 @@ int main(){
 	cout << "*************************" << endl;
 
 	cout << "Problem 1.4" << endl;
-	cout << "Test 1:" << endl << isElfish("abcd",4) << endl; // Expected: 0(false) returned
-	cout << "Test 2:" << endl << isElfish("waffles",4) << endl; // Expected: 1(true) returned
-	cout << "Test 3:" << endl << isElfish("unfriendly",4) << endl; // Expected: 1(true) returned
+	cout << "Test 1:" << endl << isElfish("abcd",4,false,false,false) << endl; // Expected: 0(false) returned
+	cout << "Test 2:" << endl << isElfish("waffles",7,false,false,false) << endl; // Expected: 1(true) returned
+	cout << "Test 3:" << endl << isElfish("unfriendly",10,false,false,false) << endl; // Expected: 1(true) returned
 	cout << "*************************" << endl;
 
 	cout << "Problem 1.5" << endl;
@@ -254,44 +350,25 @@ int minVal(int x[], int size){
 	 }
 }
 
-bool isElfish(string x, int len){
-	if(len==1){
-		return false;
-	}
-	else if(len==1){
-		switch(x[0]){
-		case 'e':
+bool isElfish(string x, int len, bool e, bool l, bool f){
+	if(len==0){
+		if(e && l && f){
 			return true;
-		case 'l':
-			return true;
-		case 'f':
-			return true;
-		case 'i':
-			return true;
-		case 's':
-			return true;
-		case 'h':
-			return true;
-		default:
+		}
+		else{
 			return false;
 		}
 	}
 	else{
 		switch(x[len-1]){
 		case 'e':
-			return true;
+			return isElfish(x,len-1,true,l,f);
 		case 'l':
-			return true;
+			return isElfish(x,len-1,e,true,f);
 		case 'f':
-			return true;
-		case 'i':
-			return true;
-		case 's':
-			return true;
-		case 'h':
-			return true;
+			return isElfish(x,len-1,e,l,true);
 		default:
-			return isElfish(x,len-1);
+			return isElfish(x,len-1,e,l,f);
 		}
 	}
 }
